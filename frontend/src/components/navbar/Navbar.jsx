@@ -1,39 +1,168 @@
-import React from 'react'
-import { Link, useNavigate } from 'react-router-dom'
-import { toast } from 'react-toastify'
-import logo from "../../images/logo.png"
+import React from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import logo from '../../images/logo.png';
 
 const Navbar = () => {
-  const navigate=useNavigate()
-  const logout=()=>{
-    localStorage.clear()
-    toast.success("Logout Successfully")
-    navigate("/login")
-  }
+  const navigate = useNavigate();
 
-  const username=localStorage.getItem("username")
-  // console.log(username);
-  const first_letter=username?.split(" ").map((e)=>e[0]).join("").toUpperCase()
-  // console.log(first_letter);
-  
-  const user=localStorage.getItem("access-token")
+  const logout = () => {
+    localStorage.clear();
+    toast.success('Logged out successfully!');
+    navigate('/login');
+  };
+
+  const username = localStorage.getItem('username');
+  const firstLetter = username?.split(' ').map((e) => e[0]).join('').toUpperCase();
+  const user = localStorage.getItem('access-token');
+
   return (
-    <nav className='w-screen h-16 shadow-lg shadow-black flex justify-between'>
-        <div className='w-[15%] h-[100%] ps-4 flex items-center justify-center font-mono italic text-[20px]'><Link to='/'><img src={logo} alt="" className='w-[45%] h-[30%] '/></Link></div>
-        <div className='w-[15%] h-[100%] flex items-center justify-center'>
-            {/* <button className='border-[2px] border-black bg-black text-white px-1'><Link to="/register">Register</Link></button> */}
-            {
-              user ? <div className='w-[100%] h-[100%] flex items-center gap-[40px]'>
-                 <div className='w-[15%] h-[50%] rounded-full bg-blue-900 flex items-center justify-center cursor-pointer hover:bg-blue-950 text-white font-semibold transition-[all 2s]'>{first_letter}</div>
-                <button className='border-[2px] border-black bg-blue-800 text-white px-1 ' onClick={logout}>Logout</button>
-              </div>:<button className='border-[2px] border-black bg-blue-800 text-white px-1'><Link to="/login">Login</Link></button>
-            }
-            
-            
-        </div>
-      
-    </nav>
-  )
-}
+    <nav className="fixed top-0 left-0 w-full  bg-gradient-to-r from-purple-500 via-pink-500 to-red-500 ">
+      {/* Top Navbar Container */}
+      <div className="container mx-auto px-6 py-3 flex justify-between items-center  ">
+        {/* Logo Section */}
+        <Link to="/" className="flex items-center space-x-3 group ">
+          <img
+            src={logo}
+            alt="Logo"
+            className="w-12 h-12 rounded-full border-2 border-black group-hover:animate-spin "
+          />
+          <span className="text-3xl font-bold text-white tracking-widest group-hover:text-gray-100 transition duration-300">
+          NotesPro
 
-export default Navbar
+          </span>
+        </Link>
+
+        {/* Desktop Menu */}
+        <ul className="hidden md:flex space-x-6 text-lg text-white font-medium">
+          <li className="group">
+            <Link
+              to="/"
+              className="relative group-hover:text-yellow-300 transition duration-300"
+            >
+              Home
+              <div className="absolute w-0 h-1 bg-yellow-300 left-0 bottom-0 group-hover:w-full transition-all duration-300"></div>
+            </Link>
+          </li>
+          <li className="group">
+            <Link
+              to="/AboutPage"
+              className="relative group-hover:text-yellow-300 transition duration-300"
+            >
+              About
+              <div className="absolute w-0 h-1 bg-yellow-300 left-0 bottom-0 group-hover:w-full transition-all duration-300"></div>
+            </Link>
+          </li>
+          <li className="group">
+            <Link
+              to="/contactpage"
+              className="relative group-hover:text-yellow-300 transition duration-300"
+            >
+              Contact
+              <div className="absolute w-0 h-1 bg-yellow-300 left-0 bottom-0 group-hover:w-full transition-all duration-300"></div>
+            </Link>
+          </li>
+        </ul>
+
+        {/* User Section */}
+        <div className="flex items-center space-x-4">
+          {user ? (
+            <>
+              <div
+                className="w-10 h-10 rounded-full bg-purple-700 flex items-center justify-center text-xl font-bold text-white hover:shadow-lg transition transform hover:scale-110"
+                title={username}
+              >
+                {firstLetter}
+              </div>
+              <button
+                onClick={logout}
+                className="px-4 py-2 bg-red-600 rounded-full text-white hover:bg-red-700 shadow-lg transition-all duration-300"
+              >
+                Logout
+              </button>
+            </>
+          ) : (
+            <Link
+              to="/login"
+              className="px-6 py-2 rounded-full bg-green-500 text-white hover:bg-green-600 shadow-lg transition-all duration-300"
+            >
+              Login
+            </Link>
+          )}
+        </div>
+
+        {/* Hamburger Menu for Mobile */}
+        <button
+          className="block md:hidden focus:outline-none"
+          onClick={() => {
+            const menu = document.querySelector('.mobile-menu');
+            menu.classList.toggle('hidden');
+          }}
+        >
+          <span className="block w-8 h-1 bg-white my-1 rounded-sm"></span>
+          <span className="block w-8 h-1 bg-white my-1 rounded-sm"></span>
+          <span className="block w-8 h-1 bg-white my-1 rounded-sm"></span>
+        </button>
+      </div>
+
+      {/* Mobile Menu */}
+      <div className="mobile-menu hidden md:hidden bg-gradient-to-br from-purple-500 to-red-500 text-white">
+        <ul className="text-center space-y-4 py-4">
+          <li>
+            <Link
+              to="/"
+              className="block py-2 hover:bg-purple-700 transition-all"
+              onClick={() => closeMenu()}
+            >
+              Home
+            </Link>
+          </li>
+          <li>
+            <Link
+              to="/AboutPage"
+              className="block py-2 hover:bg-purple-700 transition-all"
+              onClick={() => closeMenu()}
+            >
+              About
+            </Link>
+          </li>
+          <li>
+            <Link
+              to="/contact"
+              className="block py-2 hover:bg-purple-700 transition-all"
+              onClick={() => closeMenu()}
+            >
+              Contact
+            </Link>
+          </li>
+          {user ? (
+            <li>
+              <button
+                onClick={logout}
+                className="block w-full text-left py-2 hover:bg-red-600 transition-all"
+              >
+                Logout
+              </button>
+            </li>
+          ) : (
+            <li>
+              <Link
+                to="/login"
+                className="block py-2 hover:bg-green-600 transition-all"
+              >
+                Login
+              </Link>
+            </li>
+          )}
+        </ul>
+      </div>
+    </nav>
+  );
+
+  function closeMenu() {
+    const menu = document.querySelector('.mobile-menu');
+    menu.classList.add('hidden');
+  }
+};
+
+export default Navbar;

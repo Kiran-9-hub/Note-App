@@ -10,6 +10,8 @@ import Userdashboard from './components/userDashboard/Userdashboard'
 import CreateNote from './components/userDashboard/note/createnote/CreateNote'
 import UpdateNote from './components/userDashboard/note/updatenote/UpdateNote'
 import ProtectedRoute from './components/protectedRouting/ProtectedRoute'
+import AboutPage from './components/Aboutpage/AboutPage'
+import ContactPage from './contactPage/ContactPage'
 // import { ToastContainer } from 'react-toastify'
 
 const App = () => {
@@ -33,6 +35,16 @@ const App = () => {
                 {
                     path:"/reset",
                     element:<ResetPassword/>
+                },
+                {
+                    path:"/AboutPage",
+                    element:<AboutPage/>
+
+                },
+                {
+                    path:"/contactpage",
+                    element:<ContactPage/>
+
                 },
                 {
                     path:"/user_dashboard",
